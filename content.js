@@ -1,2 +1,2 @@
 // 	content.js
-alert("Hello from PassHash bitchesssss")
+//alert("Hello from PassHash bitchesssss")
