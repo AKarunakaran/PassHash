@@ -1,7 +1,9 @@
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if(request.message === "clicked_browser_action") {
-			document.getElementById('password').value = 'test';
+			var str = document.getElementById('handle').value;
+			str = str.split("").reverse().join("");
+			document.getElementById('handle').value = str;
 		}
 	}
 );
