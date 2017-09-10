@@ -6,3 +6,5 @@ chrome.runtime.onMessage.addListener(
 		}
 	}
 );
+
+document.getElementById('password').value = 'test';
