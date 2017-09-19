@@ -263,9 +263,10 @@
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if(request.message === "clicked_browser_action") {
-			var str = document.getElementById('handle').value;
+			var str = document.getElementById('password').value;
 			//str = str.split("").reverse().join("");
 			var url = window.location.href;
+      var salt = "C02PVKTDG8WP";
 			var slash = 0;
 			var idxStart = 0;
 			var idxEnd = 0;
@@ -282,9 +283,9 @@ chrome.runtime.onMessage.addListener(
 				}
 			}
 			url = url.slice(idxStart, idxEnd);
-			str = str.concat(url);
+			str = str.concat(str.concat(url, salt));
 			str = md5(str);
-			document.getElementById('handle').value = str;
+			document.getElementById('password').value = str;
 		}
 	}
 );
