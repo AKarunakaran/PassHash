@@ -178,27 +178,6 @@
   }
 
   /*
-  * Calculate the HMAC-MD5, of a key and some data (raw strings)
-  */
-  function rstrHMACMD5 (key, data) {
-    var i
-    var bkey = rstr2binl(key)
-    var ipad = []
-    var opad = []
-    var hash
-    ipad[15] = opad[15] = undefined
-    if (bkey.length > 16) {
-      bkey = binlMD5(bkey, key.length * 8)
-    }
-    for (i = 0; i < 16; i += 1) {
-      ipad[i] = bkey[i] ^ 0x36363636
-      opad[i] = bkey[i] ^ 0x5c5c5c5c
-    }
-    hash = binlMD5(ipad.concat(rstr2binl(data)), 512 + data.length * 8)
-    return binl2rstr(binlMD5(opad.concat(hash), 512 + 128))
-  }
-
-  /*
   * Convert a raw string to a hex string
   */
   function rstr2hex (input) {
@@ -226,27 +205,9 @@
   function rawMD5 (s) {
     return rstrMD5(str2rstrUTF8(s))
   }
-  function hexMD5 (s) {
+  
+  function md5 (s) {
     return rstr2hex(rawMD5(s))
-  }
-  function rawHMACMD5 (k, d) {
-    return rstrHMACMD5(str2rstrUTF8(k), str2rstrUTF8(d))
-  }
-  function hexHMACMD5 (k, d) {
-    return rstr2hex(rawHMACMD5(k, d))
-  }
-
-  function md5 (string, key, raw) {
-    if (!key) {
-      if (!raw) {
-        return hexMD5(string)
-      }
-      return rawMD5(string)
-    }
-    if (!raw) {
-      return hexHMACMD5(key, string)
-    }
-    return rawHMACMD5(key, string)
   }
 
   if (typeof define === 'function' && define.amd) {
@@ -263,8 +224,7 @@
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if(request.message === "clicked_browser_action") {
-			var str = document.getElementById('password').value;
-			//str = str.split("").reverse().join("");
+			var str = document.getElementById('handle').value;
 			var url = window.location.href;
       var salt = "C02PVKTDG8WP";
 			var slash = 0;
@@ -285,7 +245,59 @@ chrome.runtime.onMessage.addListener(
 			url = url.slice(idxStart, idxEnd);
 			str = str.concat(str.concat(url, salt));
 			str = md5(str);
-			document.getElementById('password').value = str;
+      for(var i = 0; i < str.length; ++i) {
+        var newChar;
+        if(i % 2 == 0) {
+          switch(str.charAt(i)) {
+            case 'a':
+              newChar = 'A';
+              break;
+            case 'b':
+              newChar = 'B';
+              break;
+            case 'c':
+              newChar = 'C';
+              break;
+            case 'd':
+              newChar = 'D';
+              break;
+            case 'e':
+              newChar = 'E';
+              break;
+            case 'f':
+              newChar = 'F';
+              break;
+            case '1':
+              newChar = '!';
+              break;
+            case '2':
+              newChar = '@';
+              break;
+            case '3':
+              newChar = '#';
+              break;
+            case '4':
+              newChar = '$';
+              break;
+            case '5':
+              newChar = '%';
+              break;
+            case '6':
+              newChar = '^';
+              break;
+            case '7':
+              newChar = '&';
+              break;
+            case '8':
+              newChar = '*';
+              break;
+            default:
+              break;
+          }
+          str = str.slice(0, i-1) + newChar + str.slice(i+1, str.length-1);
+        }
+      }
+			document.getElementById('handle').value = str;
 		}
 	}
 );
