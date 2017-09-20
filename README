@@ -1,6 +1,6 @@
 Author: Aman Karunakaran
 Maintainer: Aman Karunakaran
 Version: 0.7
-Description: This is a Google Chrome extension that allows users to use one password for every website, and through the power of MD5 hashing, use multiple very secure passwords on all sites.
+Description: This is a Google Chrome extension that allows users to use one password for every website, and through the power of modified MD5 hashing, use multiple very secure passwords on all sites.
 Usage: This folder can act as the browser extension folder, so in the developer mode on chrome://extensions, you can upload this folder. When you type in  your password on a website, you can click the browser button (on the top right of your browser) to encrypt your password into a website-specific version. You also need a key for this to work properly, so in the content.js file, edit the var called “salt” to be something specific to you (e.g. your computer’s serial number).
-Future features: Unique browser button icon, ability to edit salt through settings, editing of hashed string to pass website password requirements (i.e. shorter length, special characters).
+Future features: Unique browser button icon, ability to edit salt through settings, editing of hashed string to pass website password requirements (i.e. shorter length).
